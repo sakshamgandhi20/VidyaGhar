@@ -1,0 +1,27 @@
+# Node.js dependencies
+node_modules/
+
+# Environment variables
+.env
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Directory for book images (if not to be included in the repo)
+bookspics/
+
+# React application build files
+my-react-app/build/
+
+# React application dependencies
+my-react-app/node_modules/
+
+# React application environment variables
+my-react-app/.env
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
