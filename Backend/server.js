@@ -3,7 +3,7 @@ const fileUpload = require("express-fileupload");
 const mongoose=require("mongoose");
 const cors=require("cors");
 var bodyparser=require("body-parser");
-const dbObj = require("./config/dbConfig");
+// const dbObj = require("./config/dbConfig"); //for security resons we cannot use this instead use .env
 const userRouter = require('./Router/userRouter')
 const profileRouter = require('./Router/profileRouter')
 const booksRouter = require('./Router/booksRouter')
@@ -22,7 +22,7 @@ app.listen(2005,()=>{
 })
 
 
-const server = dbObj.dburl;
+const server = process.env.dburl;
 mongoose.connect(server).then(()=>{
     console.log("Backend started");
    
