@@ -33,23 +33,22 @@ const Navbar = () => {
     { id: 1, text: 'Home', link: '/' },
     { id: 2, text: 'Profile', link: '/profile' },
     { id: 3, text: 'SellBook', link: '/managebook' },
-    { id: 4, text: 'Wishlist', link: '/wishlist' },
-    { id: 5, text: 'Cart', link: '/cart' },
-    { id: 6, text: 'About', link: '/about' },
-    { id: 7, text: 'Contactpage', link: '/contactpage' },
-    { id: 8, text: 'Logout', link: '/logout', onClick: handleLogout },
-    { id: 9, text: 'Login', link: '/login' },
-    { id: 10, text: 'SignUp', link: '/signin' },
+    { id: 4, text: 'Cart', link: '/cart' },
+    { id: 5, text: 'About', link: '/about' },
+    { id: 6, text: 'Contactpage', link: '/contactpage' },
+    { id: 7, text: 'Logout', link: '/logout', onClick: handleLogout },
+    { id: 8, text: 'Login', link: '/login' },
+    { id: 9, text: 'SignUp', link: '/signin' },
   ];
 
   const filteredNavItems = isLoggedIn
-    ? navItems.filter(item => item.id <= 8)
-    : navItems.filter(item => (item.id >= 9 || item.id === 1));
+    ? navItems.filter(item => item.id <= 7)
+    : navItems.filter(item => (item.id >= 8 || item.id === 1));
 
   return (
     <>
       <div className='flex justify-between items-center h-24 mx-auto px-4 text-black' style={{ backgroundColor: '#D8CAB4' }}>
-        <img src="./assests/logo.png" className='h-32 w-auto' alt='Logo'/>
+        <img src="./assests/logo.png" className='h-32 w-auto' alt='Logo' />
         <ul className='hidden md:flex'>
           {filteredNavItems.map(item => (
             <li key={item.id}>
@@ -82,7 +81,7 @@ const Navbar = () => {
           }
         >
           {/* <h1 className='w-full text-3xl font-bold text-[#00df9a] text-left m-4'>REACT.</h1> */}
-          <img src="./assests/logo.png" className='h-32 w-auto' alt='Logo'/>
+          <img src="./assests/logo.png" className='h-32 w-auto' alt='Logo' />
           {filteredNavItems.map(item => (
             <li
               key={item.id}

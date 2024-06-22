@@ -8,7 +8,7 @@ function getCartModal(){
         edition: String,
         authorName: String,
         status: Boolean,
-        price: String,
+        price: Number,
         bookPath: String,
         userEmail: String
     },

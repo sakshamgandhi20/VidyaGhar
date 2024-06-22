@@ -4,29 +4,29 @@ import { doShowBookInCart } from '../Service/home-controller';
 
 function Cart() {
   let navigate = useNavigate();
-const [data, setData] = useState([]);
-const [email, setEmail] = useState({
-  userEmail: localStorage.getItem("userEmail")
-});
-async function doFetch() {
-  console.log(email);
-  var serverMsg = await doShowBookInCart(email);
-  console.log(serverMsg.data);
-  if (serverMsg.data.status === true) {
-    if (serverMsg.data.result) {
-      setData(serverMsg.data.result);
-      // const calculateTotalPrice = () => {
-      //   const total = data.reduce((acc, item) => acc + parseInt(item.price, 10), 0);
-      //   setTotalPrice(total);
-      // };
-      console.log(serverMsg.data);
+  const [data, setData] = useState([]);
+  const [email, setEmail] = useState({
+    userEmail: localStorage.getItem("userEmail")
+  });
+  async function doFetch() {
+    console.log(email);
+    var serverMsg = await doShowBookInCart(email);
+    console.log(serverMsg.data);
+    if (serverMsg.data.status === true) {
+      if (serverMsg.data.result) {
+        setData(serverMsg.data.result);
+        // const calculateTotalPrice = () => {
+        //   const total = data.reduce((acc, item) => acc + parseInt(item.price, 10), 0);
+        //   setTotalPrice(total);
+        // };
+        console.log(serverMsg.data);
+      } else {
+        alert("No record");
+      }
     } else {
-      alert("No record");
+      alert(serverMsg.data.err);
     }
-  } else {
-    alert(serverMsg.data.err);
   }
-}
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
@@ -64,10 +64,10 @@ async function doFetch() {
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-lg font-bold">${item.price}</p>
+                    <p className="text-lg font-bold">{item.price}</p>
                     <button
                       className="mt-2 text-red-600 hover:underline"
-                      // onClick={() => removeFromCart(index)}
+                    // onClick={() => removeFromCart(index)}
                     >
                       Remove
                     </button>
@@ -76,10 +76,10 @@ async function doFetch() {
               ))}
             </ul>
             <div className="flex justify-between items-center mt-4">
-              <p className="text-lg font-semibold">Total Price: ${totalPrice}</p>
+              <p className="text-lg font-semibold">Total Price: {totalPrice}</p>
               <button
                 className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                // onClick={proceedToCheckout}
+              // onClick={proceedToCheckout}
               >
                 Proceed to Checkout
               </button>
@@ -87,7 +87,7 @@ async function doFetch() {
           </div>
         )}
       </div>
-      
+
     </div>
   );
 };

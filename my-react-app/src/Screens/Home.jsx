@@ -26,7 +26,7 @@ function Home() {
     doShowCards();
   }, []);
 
- 
+
 
   const removeFromCart = (index) => {
     setCartItems(cartItems.filter((_, i) => i !== index));
@@ -42,7 +42,7 @@ function Home() {
       <Carousel></Carousel>
       <div className="grid grid-cols-4 gap-4">
         {data.slice(0, 13).map((prodt, index) => (
-          <Card key={index} {...prodt}  />
+          <Card key={index} {...prodt} />
         ))}
       </div>
       {/* <Cart cartItems={cartItems} removeFromCart={removeFromCart} proceedToCheckout={proceedToCheckout} /> */}

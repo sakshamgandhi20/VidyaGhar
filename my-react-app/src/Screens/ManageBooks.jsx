@@ -13,7 +13,7 @@ function ManageBooks() {
 
   async function doFetch() {
     console.log(email);
-    var serverMsg = await doShowBooks(email);
+    var serverMsg = await doShowBooks();
     console.log(serverMsg.data);
     if (serverMsg.data.status === true) {
       if (serverMsg.data.result) {
@@ -38,7 +38,7 @@ function ManageBooks() {
     }
   }
 
-  function doEditBook(uId){
+  function doEditBook(uId) {
     navigate(`/addbooks/${uId}`)
   }
 
@@ -108,7 +108,7 @@ function ManageBooks() {
                               onClick={() => doEditBook(item.uId)}
                               className="font-medium text-red-500 hover:text-red-700"
                             >
-                              <MdEdit className='w-6 h-6'/>
+                              <MdEdit className='w-6 h-6' />
                             </button>
                             <button
                               onClick={() => deleteBook(item.bookPath)}

@@ -1,6 +1,6 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { doSaveUserProfile, doSearchUserProfile,doUpdateeUserProfile } from '../Service/profile-controller';
+import { doSaveUserProfile, doSearchUserProfile, doUpdateeUserProfile } from '../Service/profile-controller';
 
 function Profile() {
   let navigate = useNavigate();
@@ -11,18 +11,18 @@ function Profile() {
     mobile: null,
     village: "",
   });
-  const [btn,setbtn] = useState("Save")
+  const [btn, setbtn] = useState("Save")
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-async function doSaveUpdate(){
-    if(btn==='Save')
+  async function doSaveUpdate() {
+    if (btn === 'Save')
       doSave()
-      doUpdate()
-}
+    doUpdate()
+  }
 
   async function doSave() {
 
@@ -31,34 +31,34 @@ async function doSaveUpdate(){
       alert("Profile saved....");
     else
       alert(serverMsg.data.err);
-      navigate('/')
+    navigate('/')
   }
 
   async function doSearch() {
 
 
-    var serverMsg = await doSearchUserProfile(localStorage.getItem("userEmail"))
+    var serverMsg = await doSearchUserProfile()
     if (serverMsg.data.status == true) {
       if (serverMsg.data.result != null) {
         console.log(JSON.stringify(serverMsg.data.result))
         setFormData(serverMsg.data.result);
         setbtn("Update")
       }
-      
-      
+
+
     }
     else
       alert(serverMsg.data.err);
   }
 
-   async function doUpdate(){
-      var serverMsg = await doUpdateeUserProfile(formData);
-      if(serverMsg.data.status===true)
+  async function doUpdate() {
+    var serverMsg = await doUpdateeUserProfile(formData);
+    if (serverMsg.data.status === true)
       alert("updated.....")
-      else
+    else
       alert(serverMsg.data.err);
-      navigate('/')
-    }
+    navigate('/')
+  }
 
   useEffect(() => {
     doSearch();

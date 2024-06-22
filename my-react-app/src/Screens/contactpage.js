@@ -15,7 +15,10 @@ const Contactpage = () => {
       <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg">
         <form action="action_page.php" className="space-y-6">
           <div>
-            <label htmlFor="fname" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="fname"
+              className="block text-sm font-medium text-gray-700"
+            >
               First Name
             </label>
             <input
@@ -28,7 +31,10 @@ const Contactpage = () => {
           </div>
 
           <div>
-            <label htmlFor="lname" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="lname"
+              className="block text-sm font-medium text-gray-700"
+            >
               Last Name
             </label>
             <input
@@ -41,7 +47,10 @@ const Contactpage = () => {
           </div>
 
           <div>
-            <label htmlFor="subject" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="subject"
+              className="block text-sm font-medium text-gray-700"
+            >
               Subject
             </label>
             <textarea

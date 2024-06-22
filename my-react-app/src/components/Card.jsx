@@ -1,17 +1,17 @@
 import React from 'react';
 import { doAddToCart } from '../Service/home-controller';
 const Card = (obj) => {
-    const { _id, ...dataWithoutId } = obj;
-    const data = { ...dataWithoutId, userEmail: localStorage.getItem("userEmail") };
-        async function addToCart(){
-        var serverMsg = await doAddToCart(data);
-        if (serverMsg.data.status === true){
-            alert("saved....");
-            
-        }
-        else
-            alert(serverMsg.data.err);
+  const { _id, ...dataWithoutId } = obj;
+  const data = { ...dataWithoutId, userEmail: localStorage.getItem("userEmail") };
+  async function addToCart() {
+    var serverMsg = await doAddToCart(data);
+    if (serverMsg.data.status === true) {
+      alert("saved....");
+
     }
+    else
+      alert(serverMsg.data.err);
+  }
   return (
     <div className="group my-10 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-200 bg-white shadow-lg transition-transform transform hover:scale-105">
       <a className="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl" href="#">
@@ -51,7 +51,7 @@ const Card = (obj) => {
         <button
           type='button'
           onClick={addToCart}
-        //   onClick={()=>{console.log(data)}}
+          //   onClick={()=>{console.log(data)}}
           className="flex items-center justify-center rounded-md bg-slate-900 px-5 py-2.5 text-center text-sm font-medium text-white transition-colors hover:bg-slate-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
         >
           <svg

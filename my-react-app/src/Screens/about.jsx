@@ -35,26 +35,26 @@ const About = () => {
               <img src={saksham} className="card-img-top" alt="..." />
               <div className="card-body">
                 <h5 className="card-title">Saksham Gandhi</h5>
-                
+
               </div>
             </div>
           </div>
           <div className="col-md">
             <div className="card" style={{ width: '18rem' }}>
-              <img src={lovepreet} className="card-img-top" alt="..."  style={{height:'300px'}}/>
+              <img src={lovepreet} className="card-img-top" alt="..." style={{ height: '300px' }} />
               <div className="card-body">
                 <h5 className="card-title">Lovepreet Sharma</h5>
-                
-               
+
+
               </div>
             </div>
           </div>
           <div className="col-md">
             <div className="card" style={{ width: '18rem' }}>
-              <img src={pooja} className="card-img-top" alt="..."style={{height:'300px'}} />
+              <img src={pooja} className="card-img-top" alt="..." style={{ height: '300px' }} />
               <div className="card-body">
                 <h5 className="card-title">Pooja Devi</h5>
-                
+
               </div>
             </div>
           </div>
