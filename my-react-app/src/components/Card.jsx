@@ -2,7 +2,7 @@ import React from 'react';
 import { doAddToCart } from '../Service/home-controller';
 const Card = (obj) => {
   const { _id, ...dataWithoutId } = obj;
-  const data = { ...dataWithoutId, userEmail: localStorage.getItem("userEmail") };
+  const data = { ...dataWithoutId};
   async function addToCart() {
     var serverMsg = await doAddToCart(data);
     if (serverMsg.data.status === true) {

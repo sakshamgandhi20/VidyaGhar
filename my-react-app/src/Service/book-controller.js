@@ -1,7 +1,7 @@
 import { publicAxios, privateReq } from "./axios-config";
 
 const doSaveBookDetails = (obj) => {
-  return publicAxios.post("/addBook/save", obj, {
+  return privateReq.post("/addBook/save", obj, {
     headers: { "Content-Type": "multipart/form-data" },
   });
 };

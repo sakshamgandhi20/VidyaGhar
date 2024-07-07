@@ -9,9 +9,10 @@ import { doSaveBookDetails, doSerachBookDetail, doUpdateBookDetails } from '../S
 function AddBook() {
     let navigate = useNavigate();
     const { uId } = useParams();
+
+    // form
     const [formData, setFormData] = useState({
         uId: uuidv4(),
-        email: localStorage.getItem("userEmail"),
         bookName: "",
         standard: "",
         edition: "",
@@ -20,9 +21,11 @@ function AddBook() {
         price: null,
         bookPic: null
     });
+
     const [btn, setbtn] = useState('Publish')
     const [path, setPath] = useState(null);
 
+    // function to store the form changes
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
@@ -33,12 +36,14 @@ function AddBook() {
             doSearch(uId)
     }, [uId])
 
+    // function to store the file changes
     const handleFileChange = (e) => {
         setFormData({ ...formData, ["bookPic"]: e.target.files[0] });
         const [file] = e.target.files;
         setPath(URL.createObjectURL(file));
     };
 
+    // function to call publish API
     async function doPublish() {
         // console.log(formData)
         var bookData = new FormData();
@@ -54,9 +59,10 @@ function AddBook() {
             alert(serverMsg.data.err);
     }
 
+    // function to call the fetch prdt details API
     async function doSearch(obj) {
         var serverMsg = await doSerachBookDetail(obj)
-        if (serverMsg.data.status == true) {
+        if (serverMsg.data.status === true) {
             if (serverMsg.data.result != null) {
                 console.log(JSON.stringify(serverMsg.data.result))
                 setFormData(serverMsg.data.result);
@@ -68,6 +74,7 @@ function AddBook() {
             alert(serverMsg.data.err);
     }
 
+    // function to call the Update prdt details API
     async function doUpdate() {
         // console.log(formData);
         //   //  console.log(path);
@@ -77,12 +84,21 @@ function AddBook() {
             bookData.append(prop, formData[prop]);
         }
         var serverMsg = await doUpdateBookDetails(bookData);
-        if (serverMsg.data.status === true)
+        if (serverMsg.data.status === true) {
             alert("updated.....")
+            navigate('/managebook')
+        }
         else
             alert(serverMsg.data.err);
     }
 
+    // function to switch B\W publish and Update functions
+    function doPublishUpdate() {
+        if (btn === 'Publish') doPublish()
+        else doUpdate()
+    }
+
+    // Component to show Pic || logo
     function ShowPic() {
         return (
             <>
@@ -105,22 +121,6 @@ function AddBook() {
                 <div className="border-b border-gray-300 pb-8">
                     <h2 className="text-lg font-semibold leading-6 text-gray-900 mb-4">Add Book</h2>
                     <div className="grid grid-cols-1 gap-6 md:grid-cols-6">
-                        {/* email */}
-                        {/* <div className="md:col-span-3">
-                            <label htmlFor="username" className="text-left block text-sm font-medium text-gray-900">Email</label>
-                            <div className="mt-1 max-w-[350px] rounded-md shadow-sm">
-                                <input
-                                    type="text"
-                                    name="email"
-                                    id="email"
-                                    autoComplete="email"
-                                    className="flex-1 block w-full min-w-0 max-w-[350px] border-gray-300 rounded-none focus:ring-indigo-500 focus:border-indigo-500 rounded-r-md sm:text-sm"
-                                    placeholder="Email"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                        </div> */}
                     </div>
                 </div>
 
@@ -195,9 +195,8 @@ function AddBook() {
                                     onChange={handleChange}
                                 />
                             </div>
-
-
                         </div>
+
                         {/* product pic */}
                         <div className="flex justify-center flex-col items-center md:col-span-3">
                             <ShowPic />
@@ -220,12 +219,16 @@ function AddBook() {
             </div>
             {/* Buttons */}
             <div className="mt-6 flex items-center justify-end gap-x-6">
-                <button type="button" className="rounded-md text-sm font-semibold leading-6 text-gray-900 hover:bg-red-600">
+                {/* Cancel Button */}
+                <button type="button"
+                    onClick={navigate('/managebook')}
+                    className="rounded-md text-sm font-semibold leading-6 text-gray-900 hover:bg-red-600">
                     Cancel
                 </button>
+                {/* Publich || Update Button */}
                 <button
                     type="button"
-                    onClick={doPublish}
+                    onClick={doPublishUpdate}
                     className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                     {btn}

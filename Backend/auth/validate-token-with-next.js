@@ -2,7 +2,13 @@ const jwt = require("jsonwebtoken");
 
 const jwtAuthWithNext = (req, res, next) => {
   const full_token = req.headers["authorization"]; //keyword
-  console.log(full_token);
+  // console.log(full_token);
+
+  if (!full_token) {
+    // Check if the token is present
+    res.json({ status: false, err: "login required" });
+    return;
+  }
 
   var ary = full_token.split(" ");
 
@@ -19,7 +25,15 @@ const jwtAuthWithNext = (req, res, next) => {
   if (isTokenValid) {
     console.log("*********************************************");
     const obj = jwt.decode(ary[1]);
-    req.query.email = obj.result.email;
+    if (req.method === "GET") req.query.email = obj.result.email;
+    else if (req.method === "POST") {
+      // console.log(req.body)
+      if (req.body.email) {
+        req.body.sellerEmail = req.body.email;
+      }
+      req.body.email = obj.result.email;
+      // res.json({data:req.body})
+    }
     // console.log(obj);
 
     next();

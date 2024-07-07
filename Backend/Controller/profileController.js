@@ -1,6 +1,8 @@
 const { getProfileModal } = require("../Modal/profileModal");
 const profileModal = getProfileModal();
 
+
+// function to save user profile
 function dosave(req, resp) {
   resp.set("json");
   console.log(req.body);
@@ -16,6 +18,7 @@ function dosave(req, resp) {
     });
 }
 
+// function to serach user profile
 function doSearchUserProfile(req, resp) {
   profileModal
     .findOne({ email: req.query.email })
@@ -27,6 +30,7 @@ function doSearchUserProfile(req, resp) {
     });
 }
 
+// function to update user profile
 function doUpdateProfile(req, resp) {
   resp.set("json");
 

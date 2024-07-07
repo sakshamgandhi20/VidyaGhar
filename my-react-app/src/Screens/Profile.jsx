@@ -21,7 +21,7 @@ function Profile() {
   async function doSaveUpdate() {
     if (btn === 'Save')
       doSave()
-    doUpdate()
+   else doUpdate()
   }
 
   async function doSave() {
@@ -38,7 +38,7 @@ function Profile() {
 
 
     var serverMsg = await doSearchUserProfile()
-    if (serverMsg.data.status == true) {
+    if (serverMsg.data.status === true) {
       if (serverMsg.data.result != null) {
         console.log(JSON.stringify(serverMsg.data.result))
         setFormData(serverMsg.data.result);

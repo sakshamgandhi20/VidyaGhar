@@ -10,7 +10,7 @@ const {
 } = require("../Controller/booksController");
 const app = express.Router();
 
-app.post("/save", dosave);
+app.post("/save",jwtAuthWithNext, dosave);
 app.get("/searchBook", doSearchBookDetail);
 app.get("/fetch", jwtAuthWithNext, doShow);
 app.post("/updateBook", doUpdateBook);

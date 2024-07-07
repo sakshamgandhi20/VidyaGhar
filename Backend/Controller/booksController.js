@@ -2,6 +2,9 @@ const { getBookModal } = require("../Modal/booksModal");
 const fs = require("fs");
 const path = require("path");
 const booksModal = getBookModal();
+const cartModal = require('../Modal/cartModal')
+
+// const cartModal2 = getCartModal();
 
 // function to save book details
 function dosave(req, resp) {
@@ -54,7 +57,7 @@ function doShow(req, resp) {
       console.log(result);
       resp.json({ status: true, result: result });
     })
-    .catch(function () {
+    .catch(function (err) {
       resp.json({ status: false, err: err.message });
     });
 }
@@ -68,7 +71,7 @@ function doShowAll(req, resp) {
       console.log(result);
       resp.json({ status: true, result: result });
     })
-    .catch(function () {
+    .catch(function (err) {
       resp.json({ status: false, err: err.message });
     });
 }
@@ -76,10 +79,13 @@ function doShowAll(req, resp) {
 // function to update the book details
 async function doUpdateBook(req, resp) {
   resp.set("json");
-  // let filename= "no-pic";
-  const msg = await doDeleteOldBookPath(req, resp);
+  console.log(req.body)
+  console.log(req.files)
+  if(req.files !== null){ // if book pic is updated
+  let filename= "no-pic";
+  const msg = await doDeleteOldBookPath(req, resp); // function to delete old pic
   console.log(msg);
-  if (msg.status) {
+  if (msg.status) { // store the new pic
     const fileExtension = path.extname(req.files.bookPic.name);
 
     filename = `${req.body.email + req.body.bookName}${fileExtension}`;
@@ -87,8 +93,10 @@ async function doUpdateBook(req, resp) {
     let filepath = path.join(__dirname, "..", "bookspics", filename);
 
     req.files.bookPic.mv(filepath);
-  } else console.log("bookPath is not Updated");
-
+  } else console.log("bookPath is not Updated");}
+  else console.log('book pic is same')
+  
+  // update the book details
   booksModal
     .updateOne(
       { uId: req.body.uId },
@@ -105,10 +113,25 @@ async function doUpdateBook(req, resp) {
         },
       }
     )
-    .then((result) => {
+    .then(async (result) => {
+      // update the book details in the cart of users
+     const cartResult = await cartModal.updateMany({uId: req.body.uId},
+        {
+          $set: {
+            bookName: req.body.bookName,
+          standard: req.body.standard,
+          edition: req.body.edition,
+          authorName: req.body.authorName,
+          price: req.body.price,
+          bookPath: req.body.bookPath,
+          }
+        }
+      )
+      console.log(cartResult);
       if (result.matchedCount == 1) resp.json({ status: true, msg: "updated" });
+      else resp.json({status:true , msg: "item does not exist"})
     })
-    .catch(function () {
+    .catch(function (err) {
       resp.json({ status: false, err: err.message });
     });
 }

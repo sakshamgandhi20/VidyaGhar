@@ -1,8 +1,9 @@
 const { default: mongoose } = require("mongoose");
 
-function getCartModal(){
+
     let cartDetails = new mongoose.Schema({
-        email: String,
+        uId: String,
+        userEmail: String,
         bookName: String,
         standard: String,
         edition: String,
@@ -10,12 +11,11 @@ function getCartModal(){
         status: Boolean,
         price: Number,
         bookPath: String,
-        userEmail: String
+        sellerEmail: String
     },
     {
         versionKey:false
     })
     const cartModal = mongoose.model("cartDetails",cartDetails);
-    return cartModal
-}
-module.exports={getCartModal}
+
+module.exports=cartModal;

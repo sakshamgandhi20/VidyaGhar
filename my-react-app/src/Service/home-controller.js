@@ -1,15 +1,19 @@
-import { publicAxios } from "./axios-config";
+import { publicAxios,privateReq } from "./axios-config";
 
 const doShowAllBooks = (obj) => {
   return publicAxios.post("/addBook/showAll", obj);
 };
 
 const doAddToCart = (obj) => {
-  return publicAxios.post("/cart/addToCart", obj);
+  return privateReq.post("/cart/addToCart", obj);
 };
 
-const doShowBookInCart = (obj) => {
-  return publicAxios.post("/cart/showCart", obj);
+const doShowBookInCart = () => {
+  return privateReq.post("/cart/showCart");
 };
 
-export { doShowAllBooks, doAddToCart, doShowBookInCart };
+const doRemovePrdt = (obj) => {
+  return privateReq.post('/cart/removePrdt', obj)
+}
+
+export { doShowAllBooks, doAddToCart, doShowBookInCart, doRemovePrdt };

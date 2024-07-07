@@ -27,16 +27,6 @@ function Home() {
   }, []);
 
 
-
-  const removeFromCart = (index) => {
-    setCartItems(cartItems.filter((_, i) => i !== index));
-  };
-
-  const proceedToCheckout = () => {
-    // Handle checkout process
-    alert('Proceeding to checkout');
-  };
-
   return (
     <>
       <Carousel></Carousel>

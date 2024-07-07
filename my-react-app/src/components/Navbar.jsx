@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
+import {  Routes, Route, useNavigate } from 'react-router-dom';
 import Home from '../Screens/Home';
 import Login from '../Screens/Login';
-import AddBook from '../Screens/AddBook';
+import AddBook from './AddBook';
 import SignIn from '../Screens/Signup';
 import ManageBooks from '../Screens/ManageBooks';
 import About from '../Screens/about';
@@ -15,6 +15,7 @@ const Navbar = () => {
   const [nav, setNav] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   let navigate = useNavigate();
+  
   useEffect(() => {
     // Check if user is logged in on component mount
     setIsLoggedIn(!!localStorage.getItem("token"));
@@ -23,6 +24,7 @@ const Navbar = () => {
   const handleNav = () => {
     setNav(!nav);
   };
+  // function to logout
   const handleLogout = () => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
@@ -80,7 +82,7 @@ const Navbar = () => {
               : 'ease-in-out w-[60%] duration-500 fixed top-0 bottom-0 left-[-100%]'
           }
         >
-          {/* <h1 className='w-full text-3xl font-bold text-[#00df9a] text-left m-4'>REACT.</h1> */}
+          
           <img src="./assests/logo.png" className='h-32 w-auto' alt='Logo' />
           {filteredNavItems.map(item => (
             <li
@@ -96,6 +98,7 @@ const Navbar = () => {
           ))}
         </ul>
       </div>
+       {/* ROUTES */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
