@@ -15,7 +15,7 @@ const Navbar = () => {
   const [nav, setNav] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   let navigate = useNavigate();
-  
+
   useEffect(() => {
     // Check if user is logged in on component mount
     setIsLoggedIn(!!localStorage.getItem("token"));
@@ -36,8 +36,8 @@ const Navbar = () => {
     { id: 2, text: 'Profile', link: '/profile' },
     { id: 3, text: 'SellBook', link: '/managebook' },
     { id: 4, text: 'Cart', link: '/cart' },
-    { id: 5, text: 'About', link: '/about' },
-    { id: 6, text: 'Contactpage', link: '/contactpage' },
+    // { id: 5, text: 'About', link: '/about' },
+    // { id: 6, text: 'Contactpage', link: '/contactpage' },
     { id: 7, text: 'Logout', link: '/logout', onClick: handleLogout },
     { id: 8, text: 'Login', link: '/login' },
     { id: 9, text: 'SignUp', link: '/signin' },
