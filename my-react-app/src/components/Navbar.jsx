@@ -10,6 +10,9 @@ import About from '../Screens/about';
 import Profile from '../Screens/Profile';
 import Contactpage from '../Screens/contactpage';
 import Cart from '../Screens/Cart';
+import ForgotPassword from './ForgotPassword';
+import ResetPassword from './ResetPassword';
+
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
@@ -108,6 +111,8 @@ const Navbar = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/about" element={<About />} />
         <Route path="/contactpage" element={<Contactpage />} />
+        <Route path="/forgotPassword" element={<ForgotPassword />} />
+        <Route path="/resetPassword/:token" element={<ResetPassword />} />
         <Route path="/login" element={<Login onLogin={() => setIsLoggedIn(true)} />} />
         <Route path="/signin" element={<SignIn onSignUp={() => setIsLoggedIn(true)} />} />
       </Routes>

@@ -8,6 +8,7 @@ const userRouter = require("./Router/userRouter");
 const profileRouter = require("./Router/profileRouter");
 const booksRouter = require("./Router/booksRouter");
 const cartRouter = require("./Router/cartRouter");
+const orderHistroyRouter = require('./Router/orderHistroyRouter')
 const dotenv = require("dotenv");
 
 const app = express();
@@ -36,3 +37,4 @@ app.use("/user", userRouter);
 app.use("/profile", profileRouter);
 app.use("/addBook", booksRouter);
 app.use("/cart", cartRouter);
+app.use("/histroy",orderHistroyRouter);

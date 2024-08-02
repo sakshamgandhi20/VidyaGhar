@@ -3,11 +3,9 @@ import Footer from "../components/Footer";
 import { doShowAllBooks } from '../Service/home-controller';
 import Card from '../components/Card';
 import Carousel from '../components/Carousel';
-import Cart from './Cart';
 
 function Home() {
   const [data, setData] = useState([]);
-  const [cartItems, setCartItems] = useState([]);
 
   async function doShowCards() {
     var serverMsg = await doShowAllBooks();

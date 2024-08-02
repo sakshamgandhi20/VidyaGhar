@@ -7,6 +7,7 @@ const {
   doUpdateBook,
   doRemove,
   doSearchBookDetail,
+  doFetchCategory,
 } = require("../Controller/booksController");
 const app = express.Router();
 
@@ -16,5 +17,6 @@ app.get("/fetch", jwtAuthWithNext, doShow);
 app.post("/updateBook", doUpdateBook);
 app.post("/showAll", doShowAll);
 app.post("/remove", doRemove);
+app.get("/fetchCategory",doFetchCategory)
 
 module.exports = app;

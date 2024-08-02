@@ -1,10 +1,9 @@
-const { getBookModal } = require("../Modal/booksModal");
 const fs = require("fs");
 const path = require("path");
-const booksModal = getBookModal();
-const cartModal = require('../Modal/cartModal')
+const booksModal = require("../Modal/booksModal");
+const cartModal = require('../Modal/cartModal');
+const categoryModal = require('../Modal/categoryModal')
 
-// const cartModal2 = getCartModal();
 
 // function to save book details
 function dosave(req, resp) {
@@ -34,6 +33,13 @@ function dosave(req, resp) {
     });
 }
 
+// function to fetch types of category
+function doFetchCategory(req,resp) {
+ categoryModal.find({})
+ .then((result)=>resp.json({status: true,result:result[0].category}))
+ .catch((err)=> resp.json({status: false,err:err.message}))
+}
+
 //function to fetch the book detail
 function doSearchBookDetail(req, resp) {
   console.log(req.query.uId);
@@ -54,7 +60,7 @@ function doShow(req, resp) {
   booksModal
     .find({ email: req.query.email })
     .then((result) => {
-      console.log(result);
+      // console.log(result);
       resp.json({ status: true, result: result });
     })
     .catch(function (err) {
@@ -68,7 +74,7 @@ function doShowAll(req, resp) {
   booksModal
     .find({})
     .then((result) => {
-      console.log(result);
+      // console.log(result);
       resp.json({ status: true, result: result });
     })
     .catch(function (err) {
@@ -79,8 +85,8 @@ function doShowAll(req, resp) {
 // function to update the book details
 async function doUpdateBook(req, resp) {
   resp.set("json");
-  console.log(req.body)
-  console.log(req.files)
+  // console.log(req.body)
+  // console.log(req.files)
   if(req.files !== null){ // if book pic is updated
   let filename= "no-pic";
   const msg = await doDeleteOldBookPath(req, resp); // function to delete old pic
@@ -119,7 +125,7 @@ async function doUpdateBook(req, resp) {
         {
           $set: {
             bookName: req.body.bookName,
-          standard: req.body.standard,
+          category: req.body.category,
           edition: req.body.edition,
           authorName: req.body.authorName,
           price: req.body.price,
@@ -176,14 +182,20 @@ function doDeleteOldBookPath(req, resp) {
 
 // function to delete book details
 async function doRemove(req, resp) {
+  
   const msg = await doDeleteOldBookPath(req, resp);
+  console.log(msg)
   booksModal
-    .deleteOne({ bookPath: req.body.bookPath })
-    .then(function (result) {
-      if (result.deletedCount == 1) resp.json({ status: true, msg: "Deleted" });
+    .deleteOne({ uId: req.body.uId })
+    .then( async function (result) {
+      if (result.deletedCount == 1){ 
+        // delete the books details in the cart of the users
+        const doDeletebookInCart = await cartModal.deleteMany({uId: req.body.uId})
+        console.log(doDeletebookInCart.deletedCount)
+        resp.json({ status: true, msg: "Deleted" });}
       else resp.json({ status: true, msg: "Invalid Item" });
     })
-    .catch(function () {
+    .catch(function (err) {
       resp.send({ status: false, err: err.message });
     });
 }
@@ -195,4 +207,5 @@ module.exports = {
   doUpdateBook,
   doRemove,
   doSearchBookDetail,
+  doFetchCategory
 };

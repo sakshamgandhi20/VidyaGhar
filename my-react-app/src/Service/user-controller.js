@@ -8,4 +8,12 @@ const doLogin = (obj) => {
   return publicAxios.post("/user/login", obj);
 };
 
-export { doSignUp, doLogin };
+const doForgotPassword = (item) => {
+  return publicAxios.get("/user/forgotPassword?email="+item)
+}
+
+const doResetPassword = (obj) =>{
+  return privateReq.post("/user/resetPassword",obj)
+}
+
+export { doSignUp, doLogin, doForgotPassword, doResetPassword };

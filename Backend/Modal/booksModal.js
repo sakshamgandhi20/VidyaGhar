@@ -1,11 +1,11 @@
 const { default: mongoose } = require("mongoose");
 
-function getBookModal(){
+
     let bookDetails = new mongoose.Schema({
         uId: String,
         email: String,
         bookName: String,
-        standard: String,
+        category: String,
         edition: String,
         authorName: String,
         status: Boolean,
@@ -15,7 +15,6 @@ function getBookModal(){
     {
         versionKey:false
     })
-    const bookModal = mongoose.model("bookDetails",bookDetails);
-    return bookModal
-}
-module.exports={getBookModal}
+    const booksModal = mongoose.model("bookDetails",bookDetails);
+   
+module.exports=booksModal

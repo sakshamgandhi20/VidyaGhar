@@ -20,6 +20,9 @@ const doDeleteBook = (obj) => {
   return publicAxios.post("/addBook/remove", obj);
 };
 
+const doFetchCategory = ()=>{
+  return publicAxios.get("/addBook/fetchCategory")
+}
 const doSerachBookDetail = (uId) => {
   return publicAxios.get("/addBook/searchBook?uId=" + uId);
 };
@@ -29,4 +32,5 @@ export {
   doDeleteBook,
   doSerachBookDetail,
   doUpdateBookDetails,
+  doFetchCategory
 };

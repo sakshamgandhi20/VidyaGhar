@@ -7,18 +7,15 @@ import { doShowBooks, doDeleteBook } from '../Service/book-controller';
 function ManageBooks() {
   let navigate = useNavigate();
   const [data, setData] = useState([]);
-  const [email, setEmail] = useState({
-    email: localStorage.getItem("userEmail")
-  });
 
+  //function to fetch the listed books of user
   async function doFetch() {
-    console.log(email);
     var serverMsg = await doShowBooks();
-    console.log(serverMsg.data);
+    // console.log(serverMsg.data);
     if (serverMsg.data.status === true) {
       if (serverMsg.data.result) {
         setData(serverMsg.data.result);
-        console.log(serverMsg.data);
+        // console.log(serverMsg.data);
       } else {
         alert("No record");
       }
@@ -26,18 +23,19 @@ function ManageBooks() {
       alert(serverMsg.data.err);
     }
   }
-
-  async function deleteBook(bookPath) {
-    var serverMsg = await doDeleteBook({ bookPath: bookPath });
+  //function to delist the book
+  async function deleteBook(obj) {
+    var serverMsg = await doDeleteBook({ uId: obj });
     if (serverMsg.data.status === true) {
       alert("Book deleted");
       // Remove the deleted book from the state
-      setData(data.filter(book => book.bookPath !== bookPath));
+      setData(data.filter(book => book.uId !== obj));
     } else {
       alert(serverMsg.data.err);
     }
   }
 
+  // function to navigate to Addbook component to edit book details
   function doEditBook(uId) {
     navigate(`/addbooks/${uId}`)
   }
@@ -51,7 +49,7 @@ function ManageBooks() {
       <div className="mx-auto mt-8 p-4 bg-white shadow-md rounded-md">
         <div className="border-b border-gray-300 pb-8">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold leading-6 text-gray-900 mx-auto">Books Manager</h2>
+            <h2 className="text-lg font-semibold leading-6 text-gray-900 ml-auto">Books Manager</h2>
             <button
               type="button"
               onClick={() => navigate('/addbooks')}
@@ -62,7 +60,9 @@ function ManageBooks() {
           </div>
         </div>
       </div>
+      {/* conditional rendering */}
       {data.length === 0 ?
+        // if user has not listed any book
         <div className="text-center px-4 bg-white">
           <img className="w-1/4 mx-auto card-rounded-bottom" alt="" src="./assests/emptycart.png" />
           <div className="py-7">
@@ -71,18 +71,21 @@ function ManageBooks() {
           </div>
         </div>
         :
+        // if user has listed the books
         <div className="flex flex-col">
           <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
               <div className="overflow-hidden">
-                <table className="min-w-full text-left text-sm font-light">
-                  <thead className="border-b font-medium dark:border-neutral-500">
+                <table className="min-w-full text-center text-sm font-medium font-light">
+                  {/* table Head */}
+                  <thead className="border-b font-semibold dark:border-neutral-500">
                     <tr>
                       <th scope="col" className="px-6 py-4">#</th>
                       <th scope="col" className="px-6 py-4">Image</th>
                       <th scope="col" className="px-6 py-4">Book Name</th>
-                      <th scope="col" className="px-6 py-4">Standard</th>
+                      <th scope="col" className="px-6 py-4">Category</th>
                       <th scope="col" className="px-6 py-4">Price</th>
+                      <th scope="col" className="px-6 py-4">Status</th>
                       <th scope="col" className="px-6 py-4">Action</th>
                     </tr>
                   </thead>
@@ -91,7 +94,7 @@ function ManageBooks() {
                       return (
                         <tr
                           key={index}
-                          className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600">
+                          className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-400">
                           <td className="whitespace-nowrap px-6 py-4 font-medium">{index + 1}</td>
                           <td className="whitespace-nowrap px-6 py-4 font-medium">
                             <img src={`http://localhost:2005/uploadbook/${item.bookPath}`} alt='image' className="inline-flex mr-4 h-10 w-12 text-gray-300" aria-hidden="true"
@@ -101,21 +104,33 @@ function ManageBooks() {
                               }}></img>
                           </td>
                           <td className="whitespace-nowrap px-6 py-4">{item.bookName}</td>
-                          <td className="whitespace-nowrap px-6 py-4">{item.standard}</td>
+                          <td className="whitespace-nowrap px-6 py-4">{item.category}</td>
                           <td className="whitespace-nowrap px-6 py-4">{item.price}</td>
+                          <td className="whitespace-nowrap px-6 py-4">{item.status ? 'UnPurchased' : "purchased"}</td>
+                          {/* action buttons */}
                           <td className="whitespace-nowrap px-6 py-4">
-                            <button
-                              onClick={() => doEditBook(item.uId)}
-                              className="font-medium text-red-500 hover:text-red-700"
-                            >
-                              <MdEdit className='w-6 h-6' />
-                            </button>
-                            <button
-                              onClick={() => deleteBook(item.bookPath)}
-                              className="font-medium text-red-500 hover:text-red-700"
-                            >
-                              <MdDeleteOutline className="w-6 h-6" />
-                            </button>
+                            {/* conditional rendering according to the status of the book */}
+                            {item.status ?
+                            // if status is true it means book is unpurchased and seller can have the action buttons
+                              (<>
+                                <button
+                                  onClick={() => doEditBook(item.uId)}
+                                  className="font-medium text-red-500 hover:text-red-700"
+                                >
+                                  <MdEdit className='w-6 h-6' />
+                                </button>
+                                <button
+                                  onClick={() => deleteBook(item.uId)}
+                                  className="font-medium text-red-500 hover:text-red-700"
+                                >
+                                  <MdDeleteOutline className="w-6 h-6" />
+                                </button></>
+                              )
+                              :
+                              // if false then seller can see the info of buyer
+                              (<p>info</p>)
+                            }
+
                           </td>
                         </tr>
                       )

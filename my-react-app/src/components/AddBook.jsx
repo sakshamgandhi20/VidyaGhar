@@ -4,17 +4,17 @@ import { v4 as uuidv4 } from 'uuid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
-import { doSaveBookDetails, doSerachBookDetail, doUpdateBookDetails } from '../Service/book-controller';
+import { doFetchCategory, doSaveBookDetails, doSerachBookDetail, doUpdateBookDetails } from '../Service/book-controller';
 
 function AddBook() {
     let navigate = useNavigate();
-    const { uId } = useParams();
+    const { uId } = useParams(); // it is use to take the uId from the link path
 
     // form
     const [formData, setFormData] = useState({
         uId: uuidv4(),
         bookName: "",
-        standard: "",
+        category: "Noval",
         edition: "",
         authorName: "",
         status: true,
@@ -24,6 +24,7 @@ function AddBook() {
 
     const [btn, setbtn] = useState('Publish')
     const [path, setPath] = useState(null);
+    const [category , setCategory] = useState([])
 
     // function to store the form changes
     const handleChange = (e) => {
@@ -31,9 +32,19 @@ function AddBook() {
         setFormData({ ...formData, [name]: value });
     };
 
+    // function to fetch category
+    async function fetchCategory(){
+      var serverMsg = await doFetchCategory();
+      if(serverMsg.data.status)
+        setCategory(serverMsg.data.result)
+    else alert(serverMsg.data.err)
+    } 
+
+    useEffect(() =>{ fetchCategory()},[])
     useEffect(() => {
         if (uId)
             doSearch(uId)
+        // fetchCategory()
     }, [uId])
 
     // function to store the file changes
@@ -145,15 +156,19 @@ function AddBook() {
 
                             {/* standard */}
                             <div className="md:col-span-2 mt-3">
-                                <label htmlFor="standard" className="block text-sm font-medium text-gray-900">Standard</label>
-                                <input
-                                    id="standard"
-                                    name="standard"
+                                <label htmlFor="category" className="block text-sm font-medium text-gray-900">Category</label>
+                                <select
+                                    id="category"
+                                    name="category"
                                     autoComplete="on"
                                     className="mt-1 block w-full border-b-2 border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                    value={formData.standard}
+                                    value={formData.category}
                                     onChange={handleChange}
-                                />
+                                >
+                                    {category.map((obj)=>{
+                                        return (<option>{obj}</option>)
+                                    })}
+                                </select>
                             </div>
 
                             {/* edition */}
@@ -221,7 +236,8 @@ function AddBook() {
             <div className="mt-6 flex items-center justify-end gap-x-6">
                 {/* Cancel Button */}
                 <button type="button"
-                    onClick={navigate('/managebook')}
+                    onClick={()=>navigate('/managebook')}
+                    // onClick={alert("hello")}
                     className="rounded-md text-sm font-semibold leading-6 text-gray-900 hover:bg-red-600">
                     Cancel
                 </button>

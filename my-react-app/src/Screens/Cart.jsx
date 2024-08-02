@@ -78,10 +78,12 @@ function Cart() {
                       src={`http://localhost:2005/uploadbook/${item.bookPath}`}
                       alt="product"
                     />
-                    <div className="ml-4">
+                    <div className="ml-4 text-left">
                       <h5 className="text-lg font-semibold">{item.bookName}</h5>
                       <p className="text-sm text-gray-700">Author: {item.authorName}</p>
+                      <p className="text-sm text-gray-700">Category: {item.category}</p>
                       <p className="text-sm text-gray-700">Edition: {item.edition}</p>
+                      <p className="text-sm text-gray-700">Seller Email: {item.sellerEmail}</p>
                     </div>
                   </div>
                   <div className="text-right">

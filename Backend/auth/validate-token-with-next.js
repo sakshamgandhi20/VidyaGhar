@@ -19,12 +19,13 @@ const jwtAuthWithNext = (req, res, next) => {
     //  console.log(isTokenValid)
   } catch (err) {
     console.log("Token Expired");
-    res.json({ status: false, message: "unauthorized" });
+    res.json({ status: false, err: "unauthorized" });
     return;
   }
   if (isTokenValid) {
     console.log("*********************************************");
     const obj = jwt.decode(ary[1]);
+    // console.log(obj);
     if (req.method === "GET") req.query.email = obj.result.email;
     else if (req.method === "POST") {
       // console.log(req.body)
@@ -38,7 +39,7 @@ const jwtAuthWithNext = (req, res, next) => {
 
     next();
   } else {
-    res.json({ status: false, message: "unauthorized" });
+    res.json({ status: false, err: "unauthorized" });
     return;
   }
 };

@@ -5,7 +5,7 @@ const { default: mongoose } = require("mongoose");
         uId: String,
         userEmail: String,
         bookName: String,
-        standard: String,
+        category: String,
         edition: String,
         authorName: String,
         status: Boolean,

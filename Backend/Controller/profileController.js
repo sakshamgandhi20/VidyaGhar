@@ -49,7 +49,7 @@ function doUpdateProfile(req, resp) {
     .then((result) => {
       resp.json({ status: true, msg: "Updated" });
     })
-    .catch(function () {
+    .catch(function (err) {
       resp.json({ status: false, err: err.message });
     });
 }
