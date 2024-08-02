@@ -1,9 +1,9 @@
 const express = require('express')
-const { fetchOrderHistroy } = require('../Controller/orderHistroyController')
+const { fetchOrderHistory } = require('../Controller/orderHistoryController')
 const jwtAuthWithNext = require('../auth/validate-token-with-next')
 
 const app = express.Router();
 
-app.get('/fetchHistroy',fetchOrderHistroy);
+app.get('/fetchHistory',jwtAuthWithNext, fetchOrderHistory);
 
 module.exports = app;

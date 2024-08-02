@@ -28,12 +28,11 @@ function Home() {
   return (
     <>
       <Carousel></Carousel>
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
         {data.slice(0, 13).map((prodt, index) => (
           <Card key={index} {...prodt} />
         ))}
       </div>
-      {/* <Cart cartItems={cartItems} removeFromCart={removeFromCart} proceedToCheckout={proceedToCheckout} /> */}
       <Footer />
     </>
   );

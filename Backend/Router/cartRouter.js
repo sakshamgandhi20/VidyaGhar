@@ -7,7 +7,6 @@ const app = express.Router();
 app.post("/addToCart", jwtAuthWithNext, doAdd);
 app.post("/showCart",jwtAuthWithNext, doShowCartPrdt);
 app.post("/removePrdt",jwtAuthWithNext, doRemovePrdt);
-app.get("/checkCart",jwtAuthWithNext, doCheckOutCart);
-app.post('/update',update);
+app.post("/checkCart",jwtAuthWithNext, doCheckOutCart);
 
 module.exports = app;

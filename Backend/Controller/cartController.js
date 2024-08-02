@@ -2,7 +2,7 @@
 const path = require("path");
 const cartModal = require("../Modal/cartModal");
 const booksModal = require("../Modal/booksModal");
-const orderHistroyModal = require("../Modal/orderHistroyModal");
+const orderHistoryModal = require("../Modal/orderHistoryModal");
 
 // function to add product to cart
 function doAdd(req, resp) {
@@ -70,39 +70,10 @@ function doRemovePrdt(req, resp) {
 // function to CheckOut the cart
 async function doCheckOutCart(req, resp) {
   try {
-    const result = await cartModal.updateMany(
-      { userEmail: req.query.email, status: true },
-      { $set: { status: false } }
-    );
-
-    if (result.modifiedCount !== 0) {
-      // find the documents whose status is false
-      const purchasedPrdts = await cartModal.find({
-        userEmail: req.query.email,
-        status: false,
-      });
-      //
-      const uIds = purchasedPrdts.map((product) => product.uId);
-
-      // console.log(uIds);
-      const booksStatus = await booksModal.updateMany(
-        { uId: { $in: uIds }, status: true },
-        { $set: { status: false } }
-      );
-      console.log(booksStatus);
-      resp.json({ status: true, msg: "purchased successfully" });
-    } else resp.json({ status: true, msg: "No book in the cart" });
-  } catch (err) {
-    resp.json({ status: false, err: err.message });
-  }
-}
-
-async function update(req, resp) {
-  try {
-    // find all the books of buyer in the cartModal
+    // ------find all the books of buyer in the cartModal------
     const findCartPrdtResult = await cartModal.find(
       {
-        userEmail: req.body.userEmail,
+        userEmail: req.body.email,
       },
       {
         uId: 1,
@@ -116,17 +87,16 @@ async function update(req, resp) {
       }
     );
     // resp.json({ result: findCartPrdtResult });
-     // extract the uIds of books
+     // ------extract the uIds of books------
     const uIds = findCartPrdtResult.map((product) => product.uId);
     // resp.json({result:uIds})
-
-    // update the status to false in buyer side
+    // ------update the status to false in buyer side------
     const updateSellerSide = await booksModal.updateMany(
       { uId: { $in: uIds } },
       { $set: { status: false } }
     );
 
-    // checks all books status is updated or not
+    // ------checks all books status is updated or not------
     if (updateSellerSide.modifiedCount !== uIds.length) {
       // if the status of all book is not updated it will reverse the status
       const reverseUpdateSellerSide = await booksModal.updateMany(
@@ -141,15 +111,27 @@ async function update(req, resp) {
       resp.json({ status: true, msg: "item not found" });
     }
     else {
+      // --------save the purchased books details in order history--------
       // resp.json({ result: updateSellerSide });
-      const doc =  new orderHistroyModal({
-        buyerEmail:req.body.userEmail,
+      const doc =  new orderHistoryModal({
+        buyerEmail:req.body.email,
         data: findCartPrdtResult,
-        date: Date.now()
-      })
-    const orderHistroyResult = await doc.save()
-      resp.json(orderHistroyResult)
-      // const orderHistroyResult = await orderHistroyModal.
+        date: new Date(),
+        totalPrice: req.body.totalPrice,
+      })  
+    const orderHistoryResult = await doc.save();
+    // ------change the status of books in the all users cart------
+    if(orderHistoryResult){
+      const cartUpdateAllUsers = await cartModal.updateMany(
+        { uId: { $in: uIds } },
+        { $set: { status: false } })
+
+        const removeUserCart = await cartModal.deleteMany({userEmail:req.body.email})
+        resp.json({status:true, msg:"items purchased successfully"})
+      }
+      else
+      resp.json({status:true, msg:"items does not purchased"})
+      
     }
   } catch (err) {
     resp.json({ status: false, err: err.message });
@@ -161,5 +143,4 @@ module.exports = {
   doShowCartPrdt,
   doRemovePrdt,
   doCheckOutCart,
-  update,
 };

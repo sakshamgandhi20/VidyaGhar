@@ -12,7 +12,7 @@ import Contactpage from '../Screens/contactpage';
 import Cart from '../Screens/Cart';
 import ForgotPassword from './ForgotPassword';
 import ResetPassword from './ResetPassword';
-
+import OrderHistory from '../Screens/OrderHistory';
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
@@ -113,6 +113,7 @@ const Navbar = () => {
         <Route path="/contactpage" element={<Contactpage />} />
         <Route path="/forgotPassword" element={<ForgotPassword />} />
         <Route path="/resetPassword/:token" element={<ResetPassword />} />
+        <Route path="/orderhistory" element={<OrderHistory />} />
         <Route path="/login" element={<Login onLogin={() => setIsLoggedIn(true)} />} />
         <Route path="/signin" element={<SignIn onSignUp={() => setIsLoggedIn(true)} />} />
       </Routes>

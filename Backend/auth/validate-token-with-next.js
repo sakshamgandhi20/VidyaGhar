@@ -19,7 +19,7 @@ const jwtAuthWithNext = (req, res, next) => {
     //  console.log(isTokenValid)
   } catch (err) {
     console.log("Token Expired");
-    res.json({ status: false, err: "unauthorized" });
+    res.json({ status: false, err: "relogin required" });
     return;
   }
   if (isTokenValid) {
@@ -36,6 +36,7 @@ const jwtAuthWithNext = (req, res, next) => {
       // res.json({data:req.body})
     }
     // console.log(obj);
+    // console.log(req.body)
 
     next();
   } else {

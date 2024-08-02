@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { doRemovePrdt, doShowBookInCart } from "../../Service/home-controller";
+import { doRemovePrdt, doShowBookInCart } from "../../Service/cart-controller";
 
 export const fetchCartList = createAsyncThunk('fetchcartList', async () =>{
     // console.log("first")

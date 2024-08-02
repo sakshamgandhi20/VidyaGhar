@@ -15,15 +15,16 @@ let orderDetails = new mongoose.Schema(
         sellerEmail: String,
       },
     ],
-    date: { type: Date, default: Date.now },
+    date: Date,
+    totalPrice: Number,
   },
   {
     versionKey: false,
   }
 );
-const orderHistroyModal = mongoose.model(
-  "orderHistroyCollection",
+const orderHistoryModal = mongoose.model(
+  "orderHistoryCollection",
   orderDetails
 );
 
-module.exports = orderHistroyModal;
+module.exports = orderHistoryModal;

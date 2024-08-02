@@ -72,7 +72,7 @@ function doShow(req, resp) {
 function doShowAll(req, resp) {
   // console.log(req.body)
   booksModal
-    .find({})
+    .find({}).limit(12)
     .then((result) => {
       // console.log(result);
       resp.json({ status: true, result: result });
@@ -182,16 +182,13 @@ function doDeleteOldBookPath(req, resp) {
 
 // function to delete book details
 async function doRemove(req, resp) {
-  
-  const msg = await doDeleteOldBookPath(req, resp);
-  console.log(msg)
   booksModal
     .deleteOne({ uId: req.body.uId })
     .then( async function (result) {
       if (result.deletedCount == 1){ 
         // delete the books details in the cart of the users
-        const doDeletebookInCart = await cartModal.deleteMany({uId: req.body.uId})
-        console.log(doDeletebookInCart.deletedCount)
+        const changeStatusInCart = await cartModal.updateMany({uId: req.body.uId},{$set: {status:false}})
+        console.log(changeStatusInCart.modifiedCount)
         resp.json({ status: true, msg: "Deleted" });}
       else resp.json({ status: true, msg: "Invalid Item" });
     })

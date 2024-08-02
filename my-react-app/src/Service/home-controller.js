@@ -5,15 +5,7 @@ const doShowAllBooks = (obj) => {
 };
 
 const doAddToCart = (obj) => {
-  return privateReq.post("/cart/addToCart", obj);
-};
+    return privateReq.post("/cart/addToCart", obj);
+  };
 
-const doShowBookInCart = () => {
-  return privateReq.post("/cart/showCart");
-};
-
-const doRemovePrdt = (obj) => {
-  return privateReq.post('/cart/removePrdt', obj)
-}
-
-export { doShowAllBooks, doAddToCart, doShowBookInCart, doRemovePrdt };
+export {doShowAllBooks, doAddToCart}

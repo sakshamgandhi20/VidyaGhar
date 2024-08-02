@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { doShowBookInCart } from '../Service/home-controller';
 import { fetchCartList, removePrdtFromCart } from '../Store/Slice/slice';
 import {useDispatch, useSelector} from 'react-redux'
+import { doCheckOut } from '../Service/cart-controller';
 
 function Cart() {
   let navigate = useNavigate();
@@ -10,33 +10,19 @@ function Cart() {
   const cartItems = useSelector((state)=> state.cartlist.items)
   const cartStatus = useSelector((state)=> state.cartlist.status)
   const cartError = useSelector((state)=> state.cartlist.error)
-  // console.log({cartItems})
-  // const [data, setData] = useState([]);
-  // const [email, setEmail] = useState({
-  //   userEmail: localStorage.getItem("userEmail")
-  // });
-  // setData(myData);
-  // async function doFetch() {
-  //   console.log(email);
-  //   var serverMsg = await doShowBookInCart(email);
-  //   // console.log(serverMsg.data);
-  //   if (serverMsg.data.status === true) {
-  //     if (serverMsg.data.result) {
-  //       setData(serverMsg.data.result);
-  //       // const calculateTotalPrice = () => {
-  //       //   const total = data.reduce((acc, item) => acc + parseInt(item.price, 10), 0);
-  //       //   setTotalPrice(total);
-  //       // };
-  //       // console.log(serverMsg.data);
-  //     }
-  //      else {
-  //       alert("No record");
-  //     }
-  //   } else {
-  //     alert(serverMsg.data.err);
-  //   }
-  // }
+  
   const [totalPrice, setTotalPrice] = useState(0);
+
+  async function doCheckOutCart(){
+    var serverMsg = await doCheckOut({totalPrice: totalPrice});
+    if(serverMsg.data.status){
+      alert(serverMsg.data.msg);
+      navigate('/')
+    }
+    else{
+      alert(serverMsg.data.err);
+    }
+  }
 
   useEffect(() => {
     const calculateTotalPrice = () => {
@@ -46,22 +32,24 @@ function Cart() {
     calculateTotalPrice();
   }, [cartItems]);
   useEffect(() => {
-    // doFetch()
+    
     if(cartStatus === 'idle')
       dispatch(fetchCartList());
-    // fetchCartList()
-    // const calculateTotalPrice = () => {
-    //   const total = data.reduce((acc, item) => acc + parseInt(item.price, 10), 0);
-    //   setTotalPrice(total);
-    // };
-    // calculateTotalPrice();
-    // console.log(data.price)
-    // console.log(totalPrice)
+    
   }, [cartStatus, dispatch]);
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Shopping Cart</h1>
+    <div className="container mx-auto p-4 ">
+      <div className='flex flex-row items-center justify-between mb-4'>
+      <h1 className="text-2xl font-bold ml-auto">Shopping Cart</h1>
+      <button
+              type="button"
+              onClick={() => navigate('/orderhistory')}
+              className="ml-auto rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >
+               Order History
+            </button>
+      </div>
        {cartStatus === 'loading' && <p>Loading....</p>} 
        {cartStatus === 'failed' && <p>{cartError}</p>}
       <div className="bg-white shadow-md rounded-lg p-4">
@@ -102,7 +90,7 @@ function Cart() {
               <p className="text-lg font-semibold">Total Price: {totalPrice}</p>
               <button
                 className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-              // onClick={(e)=> console.log({cartItems})}
+              onClick={()=>doCheckOutCart()}
               >
                 Proceed to Checkout
               </button>

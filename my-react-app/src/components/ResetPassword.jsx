@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { CgProfile } from "react-icons/cg";
-import { doResetPassword, doSignUp } from "../Service/user-controller";
+import { doResetPassword } from "../Service/user-controller";
 import { useNavigate, useParams } from "react-router-dom";
 import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
 
