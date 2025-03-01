@@ -14,7 +14,7 @@ import ForgotPassword from './ForgotPassword';
 import ResetPassword from './ResetPassword';
 import OrderHistory from '../Screens/OrderHistory';
 
-const Navbar = () => {
+const Main = () => {
   const [nav, setNav] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   let navigate = useNavigate();
@@ -121,4 +121,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default Main;
