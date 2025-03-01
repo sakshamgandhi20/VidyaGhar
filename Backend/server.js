@@ -17,7 +17,7 @@ dotenv.config();
 app.use(fileUpload());
 app.use(cors());
 app.use(bodyparser.json()); //for parsing POST data coming from Client
-app.listen(2005, () => {
+app.listen(process.env.PORT, () => {
   console.log("server started at 2005");
 });
 
